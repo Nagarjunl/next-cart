@@ -10,24 +10,7 @@ export default function Document() {
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/animate.min.css" />
         <link rel="stylesheet" href="css/font-awesome.min.css" />
-        <link rel="stylesheet" href="vendor/OwlCarousel/owl.carousel.min.css" />
-        <link
-          rel="stylesheet"
-          href="vendor/OwlCarousel/owl.theme.default.min.css"
-        />
         <link rel="stylesheet" href="css/meanmenu.min.css" />
-        <link
-          rel="stylesheet"
-          href="vendor/slider/css/nivo-slider.css"
-          type="text/css"
-        />
-        <link
-          rel="stylesheet"
-          href="vendor/slider/css/preview.css"
-          type="text/css"
-          media="screen"
-        />
-        <link rel="stylesheet" href="css/jquery.datetimepicker.css" />
         <link rel="stylesheet" href="css/style.css" />
       </Head>
       <body>
