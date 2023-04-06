@@ -1,23 +1,33 @@
-import { addItem } from "@/store/slices/itemslice";
 import Layout from "../components/Layout";
 import { useSelector, useDispatch } from "react-redux"; // updated
 import { addCartItems } from "@/store/slices/cartslice";
+import { addItem } from "@/store/slices/itemslice";
 
 export default function Product() {
   const items = useSelector((state) => state.items.items);
   const dispatch = useDispatch();
 
-  console.log({ items });
-
   const qtyChange = (e, itemObj, pos) => {
+    const amount = e.target.value;
+    const id = itemObj.id;
     let cartItem = { ...itemObj };
-    cartItem.total = e * cartItem.price;
+    cartItem.total = amount * cartItem.price;
+
+    console.log(amount, id);
+
     dispatch(addCartItems(cartItem));
+
     dispatch(
       addItem(
-        items.map((item, index) =>
-          index === pos ? { ...item, total: e * cartItem.price } : item
-        )
+        items.map((obj) => {
+          const { category, items } = { ...obj };
+          return {
+            category: category,
+            items: items.map((item, index) =>
+              item.id === id ? { ...item, total: cartItem.total } : item
+            ),
+          };
+        })
       )
     );
   };
@@ -53,65 +63,77 @@ export default function Product() {
                       {items &&
                         items.map((item, index) => {
                           return (
-                            <tr key={index}>
-                              <td className="cart-img-holder">
-                                <a href="#">
-                                  <img
-                                    src={item.img}
-                                    alt="cart"
-                                    className="img-responsive"
-                                  />
-                                </a>
-                                {index}
-                              </td>
-                              <td>
-                                <h3>
-                                  <a href="#">{item.name}</a>
-                                </h3>
-                              </td>
-                              <td className="amount">Rs. {item.price}</td>
-                              <td className="quantity">
-                                <div className="input-group quantity-holder">
-                                  <input
-                                    type="text"
-                                    name="quantity"
-                                    className="form-control quantity-input"
-                                    onChange={(e) =>
-                                      qtyChange(e.target.value, item, index)
-                                    }
-                                  />
-                                  <div className="input-group-btn-vertical">
-                                    <button
-                                      className="btn btn-default quantity-plus"
-                                      type="button"
-                                    >
-                                      <i
-                                        className="fa fa-plus"
-                                        aria-hidden="true"
-                                      ></i>
-                                    </button>
-                                    <button
-                                      className="btn btn-default quantity-minus"
-                                      type="button"
-                                    >
-                                      <i
-                                        className="fa fa-minus"
-                                        aria-hidden="true"
-                                      ></i>
-                                    </button>
-                                  </div>
-                                </div>
-                              </td>
-                              <td className="amount">{item.total}</td>
-                              <td className="dismiss">
-                                <a href="#">
-                                  <i
-                                    className="fa fa-times"
-                                    aria-hidden="true"
-                                  ></i>
-                                </a>
-                              </td>
-                            </tr>
+                            <>
+                              <tr key={index}>
+                                <td colSpan="6">
+                                  <h4 className="category-title-center text-center">
+                                    {item.category}
+                                  </h4>
+                                </td>
+                              </tr>
+                              {item.items.map((item, index) => {
+                                return (
+                                  <tr key={index}>
+                                    <td className="cart-img-holder">
+                                      <a href="#">
+                                        <img
+                                          src={item.img}
+                                          alt="cart"
+                                          className="img-responsive"
+                                        />
+                                      </a>
+                                    </td>
+                                    <td>
+                                      <h3>
+                                        <a href="#">{item.name}</a>
+                                      </h3>
+                                    </td>
+                                    <td className="amount">Rs. {item.price}</td>
+                                    <td className="quantity">
+                                      <div className="input-group quantity-holder">
+                                        <input
+                                          type="text"
+                                          name="quantity"
+                                          className="form-control quantity-input"
+                                          onChange={(e) =>
+                                            qtyChange(e, item, index)
+                                          }
+                                        />
+                                        <div className="input-group-btn-vertical">
+                                          <button
+                                            className="btn btn-default quantity-plus"
+                                            type="button"
+                                          >
+                                            <i
+                                              className="fa fa-plus"
+                                              aria-hidden="true"
+                                            ></i>
+                                          </button>
+                                          <button
+                                            className="btn btn-default quantity-minus"
+                                            type="button"
+                                          >
+                                            <i
+                                              className="fa fa-minus"
+                                              aria-hidden="true"
+                                            ></i>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </td>
+                                    <td className="amount">{item.total}</td>
+                                    <td className="dismiss">
+                                      <a href="#">
+                                        <i
+                                          className="fa fa-times"
+                                          aria-hidden="true"
+                                        ></i>
+                                      </a>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </>
                           );
                         })}
                     </tbody>
