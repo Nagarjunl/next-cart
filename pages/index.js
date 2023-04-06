@@ -1,10 +1,6 @@
 import Layout from "../components/Layout";
 
-import { useSelector } from "react-redux"; // updated
-
 export default function Home() {
-  const items = useSelector((state) => state.items.value);
-
   return (
     <Layout>
       <div className="about1-area section-space">
@@ -27,10 +23,6 @@ export default function Home() {
             <div className="col-lg-7 col-md-7 col-sm-6 col-xs-12 wow fadeInRight">
               <div className="about1-area-top">
                 <h2>
-                  {items &&
-                    items.map((item) => {
-                      return <p>{item.name}</p>;
-                    })}
                   Red <span> Chili</span>
                 </h2>
                 <h2>For Getting Real Taste</h2>

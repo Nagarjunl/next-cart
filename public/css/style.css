@@ -967,7 +967,7 @@ ul {
 ---------------------------------------*/
 .inner-page-banner-area {
   text-align: left;
-  background: url(img/inner-page-banner.jpg);
+  background: url();
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
