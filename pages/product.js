@@ -3,17 +3,20 @@ import { useSelector, useDispatch } from "react-redux"; // updated
 import { addCartItems } from "@/store/slices/cartslice";
 import { addItem } from "@/store/slices/itemslice";
 
+import React, { useState, useEffect } from "react";
+
 export default function Product() {
   const items = useSelector((state) => state.items.items);
+  const cartItems = useSelector((state) => state.cart.cartItems);
   const dispatch = useDispatch();
+
+  const [total, setTotal] = useState();
 
   const qtyChange = (e, itemObj, pos) => {
     const amount = e.target.value;
     const id = itemObj.id;
     let cartItem = { ...itemObj };
     cartItem.total = amount * cartItem.price;
-
-    console.log(amount, id);
 
     dispatch(addCartItems(cartItem));
 
@@ -23,7 +26,7 @@ export default function Product() {
           const { category, items } = { ...obj };
           return {
             category: category,
-            items: items.map((item, index) =>
+            items: items.map((item) =>
               item.id === id ? { ...item, total: cartItem.total } : item
             ),
           };
@@ -31,6 +34,11 @@ export default function Product() {
       )
     );
   };
+
+  useEffect(() => {
+    console.log(cartItems);
+    setTotal(cartItems.reduce((acc, cartItem) => acc + cartItem.total, 0));
+  }, [setTotal, cartItems]);
 
   return (
     <>
@@ -178,7 +186,7 @@ export default function Product() {
                     Subtotal<span>$ 118.00</span>
                   </h3>
                   <h3>
-                    Total<span>$ 118.00</span>
+                    Total<span> {total} </span>
                   </h3>
                   <div className="proceed-button">
                     <button
