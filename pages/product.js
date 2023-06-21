@@ -13,10 +13,10 @@ export default function Product() {
   const [total, setTotal] = useState();
 
   const qtyChange = (e, itemObj, pos) => {
-    const amount = e.target.value;
+    const quantity = e.target.value;
     const id = itemObj.id;
     let cartItem = { ...itemObj };
-    cartItem.total = amount * cartItem.price;
+    cartItem.total = quantity * cartItem.price;
 
     dispatch(addCartItems(cartItem));
 
@@ -27,7 +27,9 @@ export default function Product() {
           return {
             category: category,
             items: items.map((item) =>
-              item.id === id ? { ...item, total: cartItem.total } : item
+              item.id === id
+                ? { ...item, total: cartItem.total, qty: quantity }
+                : item
             ),
           };
         })
@@ -103,6 +105,7 @@ export default function Product() {
                                           type="text"
                                           name="quantity"
                                           className="form-control quantity-input"
+                                          value={item.qty}
                                           onChange={(e) =>
                                             qtyChange(e, item, index)
                                           }
@@ -146,45 +149,12 @@ export default function Product() {
                         })}
                     </tbody>
                   </table>
-                  <div className="update-button">
-                    <button
-                      className="btn-apply-coupon disabled"
-                      type="submit"
-                      value="Login"
-                    >
-                      Update Cart
-                    </button>
-                  </div>
                 </div>
               </div>
             </div>
             <div className="row">
               <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                <div className="cart-page-bottom-left">
-                  <h2>Coupon</h2>
-                  <form method="post">
-                    <input
-                      type="text"
-                      id="coupon"
-                      name="coupon"
-                      placeholder="Enter your coupon code if you have one"
-                    />
-                    <button
-                      value="Coupon"
-                      type="submit"
-                      className="btn-apply-coupon disabled"
-                    >
-                      Apply Coupon
-                    </button>
-                  </form>
-                </div>
-              </div>
-              <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div className="cart-page-bottom-right">
-                  <h2>Total</h2>
-                  <h3>
-                    Subtotal<span>$ 118.00</span>
-                  </h3>
                   <h3>
                     Total<span> {total} </span>
                   </h3>
@@ -194,7 +164,7 @@ export default function Product() {
                       type="submit"
                       value="Login"
                     >
-                      Proceed To Checkout
+                      Submit
                     </button>
                   </div>
                 </div>

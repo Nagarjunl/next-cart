@@ -10,6 +10,7 @@ const initialState = {
           id: 1,
           name: "item 1",
           price: 100,
+          qty: "",
           img: "img/logo.png",
           total: "",
         },
@@ -17,6 +18,7 @@ const initialState = {
           id: 2,
           name: "item 2",
           price: 150.5,
+          qty: "",
           img: "img/logo.png",
           total: "",
         },
@@ -24,6 +26,7 @@ const initialState = {
           id: 3,
           name: "item 3",
           price: 200,
+          qty: "",
           img: "img/logo.png",
           total: "",
         },
@@ -31,6 +34,7 @@ const initialState = {
           id: 4,
           name: "item 4",
           price: 250.5,
+          qty: "",
           img: "img/logo.png",
           total: "",
         },
@@ -38,6 +42,7 @@ const initialState = {
           id: 5,
           name: "item 5",
           price: 300,
+          qty: "",
           img: "img/logo.png",
           total: "",
         },
@@ -45,6 +50,7 @@ const initialState = {
           id: 6,
           name: "item 6",
           price: 350.5,
+          qty: "",
           img: "img/logo.png",
           total: "",
         },
@@ -57,6 +63,7 @@ const initialState = {
           id: 7,
           name: "item 7",
           price: 100,
+          qty: "",
           img: "img/logo.png",
           total: "",
         },
@@ -64,6 +71,7 @@ const initialState = {
           id: 8,
           name: "item 8",
           price: 150.5,
+          qty: "",
           img: "img/logo.png",
           total: "",
         },
@@ -71,6 +79,7 @@ const initialState = {
           id: 9,
           name: "item 9",
           price: 200,
+          qty: "",
           img: "img/logo.png",
           total: "",
         },
@@ -78,6 +87,7 @@ const initialState = {
           id: 10,
           name: "item 10",
           price: 250.5,
+          qty: "",
           img: "img/logo.png",
           total: "",
         },
@@ -85,6 +95,7 @@ const initialState = {
           id: 11,
           name: "item 11",
           price: 300,
+          qty: "",
           img: "img/logo.png",
           total: "",
         },
@@ -92,6 +103,7 @@ const initialState = {
           id: 12,
           name: "item 12",
           price: 350.5,
+          qty: "",
           img: "img/logo.png",
           total: "",
         },
@@ -104,18 +116,15 @@ export const itemSlice = createSlice({
   name: "items",
   initialState,
   reducers: {
-    // Action to add item
     addItem: (state, { payload }) => {
       state.items = payload;
-      // state.items = addItemTo(state, payload);
     },
 
-    // Special reducer for hydrating the state
     extraReducers: {
-      [HYDRATE]: (state, action) => {
+      [HYDRATE]: (state, { payload }) => {
         return {
           ...state,
-          ...action.payload.items,
+          ...payload.items,
         };
       },
     },
