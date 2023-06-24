@@ -2,7 +2,7 @@ import Link from "next/link";
 export default function Layout({ children }) {
   return (
     <>
-      <div className="wrapper">
+      <div className="wrapper" style={{overflow: "unset"}}>
         <header>
           <div className="header2-area">
             <div className="header-top-area">
@@ -133,107 +133,31 @@ export default function Layout({ children }) {
           <div className="footer-area-top section-space">
             <div className="container">
               <div className="row">
-                <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div className="col-lg-7 col-md-7 col-sm-7 col-xs-12">
                   <div className="footer-box">
                     <h3 className="title-bar-footer">About Cafe</h3>
                     <div className="footer-about">
                       <p>
-                        We aim to home-produce as much as possiblefor the best
-                        quality, and to reduce food mcious cakes, traditional
-                        Devon soups, sauces and accompanimentsion.We aim to
-                        home-produce as much as possiblefor the best quality,
-                        and to reduce food mcious cakes.
+                        We are the leading supplier of Sparklers, Ground
+                        Chakkars, Flower Pots, Fountains, Fancy Crackers, Sound
+                        Crackers, Novelty Fireworks, Rockets, Bombs, Twinkling
+                        Stars, Elite Crackers, Fancy Deluxe Fountains, Loose
+                        Crackers, Electric Crackers.
                       </p>
                     </div>
-                    <ul className="footer-social">
-                      <li>
-                        <a href="#">
-                          <i className="fa fa-facebook" aria-hidden="true" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <i className="fa fa-twitter" aria-hidden="true" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <i className="fa fa-linkedin" aria-hidden="true" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <i className="fa fa-pinterest" aria-hidden="true" />
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <i className="fa fa-rss" aria-hidden="true" />
-                        </a>
-                      </li>
-                    </ul>
                   </div>
                 </div>
-                <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div className="col-lg-4 col-md-4 col-md-offset-1 col-sm-4 col-xs-12">
                   <div className="footer-box">
-                    <h3 className="title-bar-footer">Blog Posts</h3>
-                    <div className="footer-blog-post">
-                      <div className="media">
-                        <div className="media-body">
-                          <h4>
-                            <a href="#">Beef Burger Daily Special Foods That</a>
-                          </h4>
-                          <p>20 Aug, 2016</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footer-blog-post">
-                      <div className="media">
-                        <div className="media-body">
-                          <h4>
-                            <a href="#">Beef Burger Daily Special Foods That</a>
-                          </h4>
-                          <p>20 Aug, 2016</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="footer-blog-post">
-                      <div className="media">
-                        <div className="media-body">
-                          <h4>
-                            <a href="#">Beef Burger Daily Special Foods That</a>
-                          </h4>
-                          <p>20 Aug, 2016</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                  <div className="footer-box">
-                    <h3 className="title-bar-footer">Opening Hours</h3>
+                    <h3 className="title-bar-footer"> For Contact</h3>
                     <ul className="opening-schedule">
                       <li>
-                        Monday<span> 5pm - 11pm</span>
+                        Address : Site no: 156, Srinivasa Nagar, Thayilpatti
+                        village, Sivakash-626128
                       </li>
-                      <li>
-                        Tuesday<span> 5pm - 11pm</span>
-                      </li>
-                      <li>
-                        Wednesday <span> Closed</span>
-                      </li>
-                      <li>
-                        Thursday<span> 5pm - Midnight</span>
-                      </li>
-                      <li>
-                        Friday<span> 4:30pm - Midnight</span>
-                      </li>
-                      <li>
-                        Saturday <span> 5pm - 11pm</span>
-                      </li>
-                      <li>
-                        Sunday<span> 5pm - 11pm</span>
-                      </li>
+                      <li>Email: sathanafireworks@gmail.com</li>
+                      <li>Mobile: +91 98949 81364 (WhatsApp) </li>
+                      <li>Mobile: +91 86681 70374</li>
                     </ul>
                   </div>
                 </div>
@@ -243,10 +167,9 @@ export default function Layout({ children }) {
           <div className="footer-area-bottom">
             <div className="container">
               <p>
-                © 2016 RedChili All Rights Reserved. &nbsp; Designed by
-                <a target="_blank" href="http://radiustheme.com/">
-                  {" "}
-                  RadiusTheme
+                &copy; 2023. &nbsp; Designed by
+                <a target="_blank" href="https://coderplays.com/">
+                  coderplays
                 </a>
                 .com
               </p>

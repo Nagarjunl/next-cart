@@ -1,0 +1,306 @@
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poiret One', cursive;
+    letter-spacing: 4px;
+}
+
+html, body {
+    font-family: 'Poiret One', cursive;
+    letter-spacing: 4px;
+}
+.main-menu-area nav ul li a, .mean-container .mean-nav ul li a {
+    font-family: 'Fondamento', cursive;
+    font-weight: 600;
+}
+
+.subtitle-color{
+    font-family: 'Fondamento', cursive;
+}
+
+.about-page-left p {
+    font-size: 17px;
+}
+
+.cart-page-area .cart-page-top {
+    border-bottom: transparent;
+}
+.cart-page-area .cart-page-top {
+    padding: 0px
+}
+.cart-page-area .cart-page-top .table {
+    margin-bottom:0px;
+}
+.sticky_cart{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0px;
+    z-index: 1000;
+}
+.sticky_cart h3 {
+    margin-bottom :0px;
+    color:#ffffff;
+    text-transform: uppercase;
+}
+.sticky_cart  table {
+    margin-bottom:0;
+}
+.sticky_cart .table>tbody>tr>td {
+    border-top: transparent;
+}
+.category-title-center {
+    text-align: center;
+    font-size: 24px;
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 0;
+    background-color: #830004;
+}
+.cart-img-modal {
+    cursor: pointer;
+    width: 41px;
+}
+.cart-img {
+    width:56px;
+    cursor: pointer;
+}
+.contact-us-page-area .contact-us-left ul > li .contact-social li a i {
+    line-height: 30px;
+}
+#scrollUp i {
+    color: #ffffff;
+    line-height: 50px;
+}
+.cp-color {
+    color: #830004;
+}
+
+p{
+    font-weight: 700;
+}
+.about1-area p {
+    max-width: unset;
+    margin-bottom: 45px;
+    font-size: 20px;
+    line-height: 42px;
+    color: #830004;
+}
+
+.about-page-left p {
+    color: #5e5e5e;
+}
+
+.footer-area-top {
+    padding: 92px 0 55px;
+    background: #303030;
+}
+
+.footer-area-bottom, .footer-area-top .footer-social li a, .sticky_cart {
+    background: #830004;
+}
+.footer-area-top .footer-social li a:hover i, .subtitle-color {
+    color: #830004;
+}
+.footer-area-top h3, .inner-sub-title, .inner-page-banner-area .pagination-area h2  {
+    text-transform: capitalize;
+}
+.footer-area-top .footer-about p {
+    color: #b7b7b7;
+    font-size: 17px;
+    line-height: 35px;
+}
+.footer-area-top .opening-schedule li {
+    font-weight: 700;
+    color: #b7b7b7;
+    font-size: 17px;
+    margin-bottom: 12px;
+}
+
+.footer-area-bottom p{
+    font-weight: 700;
+    color: #b7b7b7;
+}
+
+.footer-area-bottom p a:hover {
+    color: #ffd45b;
+}
+
+.contact-us-left p {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.contact-us-page-area .contact-us-left ul > li h3 {
+    font-size: 20px;
+    color: #222222;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+p {
+    font-size: 17px;
+}
+.header2-area .header-top-area .header-top-left ul li a, .form-control, .btn {
+    font-weight: 700;
+}
+.top-mail {
+    font-size: 15px;
+}
+
+.close {
+    float: right;
+    font-size: 38px;
+    font-weight: 700;
+    line-height: unset;
+    color: #000;
+    text-shadow: unset;
+    filter: unset;
+    opacity: unset;
+}
+
+.cart-page-area .cart-page-top table tr .dismiss a i {
+    cursor: pointer;
+}
+
+.crt-h3 {
+    font-size:13px;
+    margin: 0 5px;
+    text-align:center;
+    display: inline;
+    line-height:53px
+}
+.crt-colon {
+    display: inline;
+}
+.crt {
+    font-size: 13px;
+}
+.cart-page-top table  {
+    font-size: 12px;
+}
+.cart-page-area .cart-page-top table tr .amount {
+    font-size: 14px;
+}
+.cart-page-area .cart-page-top table .cart-form-heading {
+    text-transform: capitalize;
+    font-weight: 700;
+}
+.ml-0 {
+    margin-left:0px !important;
+}
+.cart-page-area .cart-page-top table tr td h3 {
+    font-size: 16px;
+}
+input.price{
+    max-width: 100px;;
+}
+
+.mb-30 {
+    margin-bottom: 30px;
+}
+
+.btn-apply-coupon {
+    background: #830004;
+    border: 2px solid #760a0d;
+}
+
+img.footer-area   {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+
+.pt-100 {
+    padding-top: 100px;
+}
+
+.relative {
+    position: relative;
+}
+
+.inner-page-banner-area:after {
+    background: transparent;
+}
+.ccrt td:nth-child(3) {
+    padding-right: 25px;
+}
+
+.inner-page-banner-area-about {
+    background: url("../img/crackers/banner-4.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: repeat;
+    position: relative;
+    display: block;
+    padding: 86px 0 95px;
+}
+
+.inner-page-banner-area-contact{
+    background: url("../img/crackers/banner-3.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: repeat;
+    position: relative;
+    display: block;
+    padding: 86px 0 95px;
+}
+
+.inner-page-banner-area-product {
+    background: url("../img/crackers/banner-5.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: repeat;
+    position: relative;
+    display: block;
+    padding: 86px 0 95px;
+}
+
+@media (min-width: 768px) {
+    .ccrt td:nth-child(2) {
+        padding: 0 25px;
+    }
+    
+}
+@media (max-width: 768px) {
+
+    .crt-h3 {
+        display: block;
+        line-height:unset;
+    }
+    .crt-colon {
+        display: none;
+    }
+    .cart-page-area .cart-page-top table tr .amount{
+        font-size:12px;
+        margin-left:0;
+    }
+    .cart-page-area .cart-page-top table tr td h3 {
+        font-size:14px;
+        margin-left:0;
+    }
+    .cart-page-area .cart-page-top table tr .amount {
+        font-size: 12px;
+    }
+    .cart-page-area .cart-page-top table .cart-form-heading {
+        padding: 5px;
+    }
+    .category-title-center {
+        font-size: 17px;
+        text-transform: capitalize;
+    }
+}
+
+/* video player */
+
+.video-wrapper{
+    width: 100%;
+    height: 750px;
+    overflow: hidden;
+  }
+  
+  .video-wrapper .wrapper__video{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+  

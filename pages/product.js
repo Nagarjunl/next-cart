@@ -1,4 +1,4 @@
-import Layout from "../components/Layout";
+import Layout from "../components/layout";
 import { useSelector, useDispatch } from "react-redux"; // updated
 import { addCartItems } from "@/store/slices/cartslice";
 import { addItem } from "@/store/slices/itemslice";
@@ -16,9 +16,8 @@ export default function Product() {
     const quantity = e.target.value;
     const id = itemObj.id;
     let cartItem = { ...itemObj };
-    cartItem.total = amount * cartItem.price;
+    // cartItem.total = amount * cartItem.price;
     cartItem.total = quantity * cartItem.price;
-
 
     dispatch(addCartItems(cartItem));
 
@@ -29,13 +28,11 @@ export default function Product() {
           return {
             category: category,
             items: items.map((item) =>
-
-              item.id === id ? { ...item, total: cartItem.total } : item
+              // item.id === id ? { ...item, total: cartItem.total } : item
 
               item.id === id
                 ? { ...item, total: cartItem.total, qty: quantity }
                 : item
-
             ),
           };
         })
@@ -51,13 +48,58 @@ export default function Product() {
   return (
     <>
       <Layout>
-        <div className="inner-page-banner-area">
+        <div className="inner-page-banner-area inner-page-banner-area-product">
           <div className="container">
             <div className="pagination-area">
               <h2>Product</h2>
             </div>
           </div>
         </div>
+
+        <section className="sticky_cart">
+          <div className="container ">
+            <div className="row">
+              <div className="text-center">
+                <table className="ccrt" style={{margin:"auto"}}>
+                  <tbody>
+                    <tr className="display-inline">
+                      <td>
+                        <h3 className="crt-h3">Products </h3>
+                        <h3 className="crt-colon">:</h3>
+                        <h3 className="crt-h3">
+                          <span className="no_of_products crt"> 0 </span>
+                        </h3>
+                      </td>
+                      <td>
+                        <h3 className="crt-h3">Discount </h3>
+                        <h3 className="crt-colon">:</h3>
+                        <h3 className="crt-h3">
+                          <span className="discount_sum crt"> 0 </span>
+                        </h3>
+                      </td>
+                      <td>
+                        <h3 className="crt-h3">Total </h3>
+                        <h3 className="crt-colon">:</h3>
+                        <h3 className="crt-h3">
+                          <span className="total crt"> 0 </span>
+                        </h3>
+                      </td>
+                      <td
+                        data-toggle="modal"
+                        data-target=".bs-example-modal-lg"
+                      >
+                        <img
+                          src="img/cart-modal.png"
+                          className="cart-img-modal"
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <div className="cart-page-area">
           <div className="container">
@@ -89,7 +131,7 @@ export default function Product() {
                               </tr>
                               {item.items.map((item, index) => {
                                 return (
-                                  <tr key={index}>
+                                  <tr key={`${index}+item`}>
                                     <td className="cart-img-holder">
                                       <a href="#">
                                         <img
