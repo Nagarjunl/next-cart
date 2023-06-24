@@ -16,7 +16,9 @@ export default function Product() {
     const quantity = e.target.value;
     const id = itemObj.id;
     let cartItem = { ...itemObj };
+    cartItem.total = amount * cartItem.price;
     cartItem.total = quantity * cartItem.price;
+
 
     dispatch(addCartItems(cartItem));
 
@@ -27,9 +29,13 @@ export default function Product() {
           return {
             category: category,
             items: items.map((item) =>
+
+              item.id === id ? { ...item, total: cartItem.total } : item
+
               item.id === id
                 ? { ...item, total: cartItem.total, qty: quantity }
                 : item
+
             ),
           };
         })
