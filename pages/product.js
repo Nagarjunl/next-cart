@@ -1,7 +1,11 @@
 import Layout from "../components/layout";
 import { useSelector, useDispatch } from "react-redux"; // updated
-import { addCartItems } from "@/store/slices/cartslice";
-import { addItem } from "@/store/slices/itemslice";
+import {
+  addCartItems,
+  clearCartItems,
+  removeCartItem,
+} from "@/store/slices/cartslice";
+import { addItem, clearItem } from "@/store/slices/itemslice";
 
 import React, { useState, useEffect } from "react";
 
@@ -11,38 +15,70 @@ export default function Product() {
   const dispatch = useDispatch();
 
   const [total, setTotal] = useState();
+  const [discount, setDiscount] = useState();
 
-  const qtyChange = (e, itemObj, pos) => {
+  const qtyChange = (e, itemObj) => {
     const quantity = e.target.value;
     const id = itemObj.id;
     let cartItem = { ...itemObj };
-    // cartItem.total = amount * cartItem.price;
-    cartItem.total = quantity * cartItem.price;
 
-    dispatch(addCartItems(cartItem));
-
-    dispatch(
-      addItem(
-        items.map((obj) => {
-          const { category, items } = { ...obj };
-          return {
-            category: category,
-            items: items.map((item) =>
-              // item.id === id ? { ...item, total: cartItem.total } : item
-
-              item.id === id
-                ? { ...item, total: cartItem.total, qty: quantity }
-                : item
-            ),
-          };
-        })
-      )
-    );
+    if (quantity) {
+      cartItem.total = quantity * cartItem.price;
+      cartItem.qty = quantity;
+      dispatch(addCartItems(cartItem));
+      dispatch(
+        addItem(
+          items.map((obj) => {
+            const { category, items } = { ...obj };
+            return {
+              category: category,
+              items: items.map((item) =>
+                item.id === id
+                  ? {
+                      ...item,
+                      total: cartItem.total,
+                      qty: quantity,
+                      discount: item.discount,
+                    }
+                  : item
+              ),
+            };
+          })
+        )
+      );
+    } else {
+      dispatch(removeCartItem(itemObj));
+      dispatch(
+        addItem(
+          items.map((obj) => {
+            const { category, items } = { ...obj };
+            return {
+              category: category,
+              items: items.map((item) =>
+                item.id === id
+                  ? {
+                      ...item,
+                      total: "",
+                      qty: "",
+                      discount: item.discount,
+                    }
+                  : item
+              ),
+            };
+          })
+        )
+      );
+    }
   };
 
   useEffect(() => {
-    console.log(cartItems);
     setTotal(cartItems.reduce((acc, cartItem) => acc + cartItem.total, 0));
+    setDiscount(
+      cartItems.reduce(
+        (acc, cartItem) => acc + cartItem.discount * cartItem.qty,
+        0
+      )
+    );
   }, [setTotal, cartItems]);
 
   return (
@@ -60,28 +96,32 @@ export default function Product() {
           <div className="container ">
             <div className="row">
               <div className="text-center">
-                <table className="ccrt" style={{margin:"auto"}}>
+                <table className="ccrt" style={{ margin: "auto" }}>
                   <tbody>
                     <tr className="display-inline">
                       <td>
                         <h3 className="crt-h3">Products </h3>
                         <h3 className="crt-colon">:</h3>
                         <h3 className="crt-h3">
-                          <span className="no_of_products crt"> 0 </span>
+                          <span className="no_of_products crt">
+                            {cartItems.length || 0}
+                          </span>
                         </h3>
                       </td>
                       <td>
                         <h3 className="crt-h3">Discount </h3>
                         <h3 className="crt-colon">:</h3>
                         <h3 className="crt-h3">
-                          <span className="discount_sum crt"> 0 </span>
+                          <span className="discount_sum crt">
+                            {discount || 0}
+                          </span>
                         </h3>
                       </td>
                       <td>
                         <h3 className="crt-h3">Total </h3>
                         <h3 className="crt-colon">:</h3>
                         <h3 className="crt-h3">
-                          <span className="total crt"> 0 </span>
+                          <span className="total crt"> {total} </span>
                         </h3>
                       </td>
                       <td
@@ -113,6 +153,7 @@ export default function Product() {
                         <td className="cart-form-heading">Product</td>
                         <td className="cart-form-heading">Price</td>
                         <td className="cart-form-heading">Quantity</td>
+                        <td className="cart-form-heading">Discount</td>
                         <td className="cart-form-heading">Total</td>
                         <td className="cart-form-heading"></td>
                       </tr>
@@ -122,8 +163,8 @@ export default function Product() {
                         items.map((item, index) => {
                           return (
                             <>
-                              <tr key={index}>
-                                <td colSpan="6">
+                              <tr key={index * 1}>
+                                <td colSpan="7">
                                   <h4 className="category-title-center text-center">
                                     {item.category}
                                   </h4>
@@ -131,7 +172,7 @@ export default function Product() {
                               </tr>
                               {item.items.map((item, index) => {
                                 return (
-                                  <tr key={`${index}+item`}>
+                                  <tr key={index * 2}>
                                     <td className="cart-img-holder">
                                       <a href="#">
                                         <img
@@ -154,9 +195,7 @@ export default function Product() {
                                           name="quantity"
                                           className="form-control quantity-input"
                                           value={item.qty}
-                                          onChange={(e) =>
-                                            qtyChange(e, item, index)
-                                          }
+                                          onChange={(e) => qtyChange(e, item)}
                                         />
                                         <div className="input-group-btn-vertical">
                                           <button
@@ -180,6 +219,8 @@ export default function Product() {
                                         </div>
                                       </div>
                                     </td>
+                                    <td className="amount">{item.discount}</td>
+
                                     <td className="amount">{item.total}</td>
                                     <td className="dismiss">
                                       <a href="#">
@@ -206,7 +247,20 @@ export default function Product() {
                   <h3>
                     Total<span> {total} </span>
                   </h3>
+                  <h3>
+                    Disaount<span> {discount} </span>
+                  </h3>
+
                   <div className="proceed-button">
+                    <button
+                      className="btn-apply-coupon disabled"
+                      onClick={() => {
+                        dispatch(clearCartItems());
+                        dispatch(clearItem());
+                      }}
+                    >
+                      Clear Cart
+                    </button>
                     <button
                       className="btn-apply-coupon disabled"
                       type="submit"
