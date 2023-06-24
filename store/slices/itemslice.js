@@ -11,6 +11,7 @@ const initialState = {
           name: "item 1",
           price: 100,
           qty: "",
+          discount: 5,
           img: "img/logo.png",
           total: "",
         },
@@ -19,6 +20,7 @@ const initialState = {
           name: "item 2",
           price: 150.5,
           qty: "",
+          discount: 5,
           img: "img/logo.png",
           total: "",
         },
@@ -27,6 +29,7 @@ const initialState = {
           name: "item 3",
           price: 200,
           qty: "",
+          discount: 5,
           img: "img/logo.png",
           total: "",
         },
@@ -35,6 +38,7 @@ const initialState = {
           name: "item 4",
           price: 250.5,
           qty: "",
+          discount: 5,
           img: "img/logo.png",
           total: "",
         },
@@ -43,6 +47,7 @@ const initialState = {
           name: "item 5",
           price: 300,
           qty: "",
+          discount: 5,
           img: "img/logo.png",
           total: "",
         },
@@ -51,6 +56,7 @@ const initialState = {
           name: "item 6",
           price: 350.5,
           qty: "",
+          discount: 5,
           img: "img/logo.png",
           total: "",
         },
@@ -64,6 +70,7 @@ const initialState = {
           name: "item 7",
           price: 100,
           qty: "",
+          discount: 5,
           img: "img/logo.png",
           total: "",
         },
@@ -72,6 +79,7 @@ const initialState = {
           name: "item 8",
           price: 150.5,
           qty: "",
+          discount: 5,
           img: "img/logo.png",
           total: "",
         },
@@ -80,6 +88,7 @@ const initialState = {
           name: "item 9",
           price: 200,
           qty: "",
+          discount: 5,
           img: "img/logo.png",
           total: "",
         },
@@ -88,6 +97,7 @@ const initialState = {
           name: "item 10",
           price: 250.5,
           qty: "",
+          discount: 5,
           img: "img/logo.png",
           total: "",
         },
@@ -96,6 +106,7 @@ const initialState = {
           name: "item 11",
           price: 300,
           qty: "",
+          discount: 5,
           img: "img/logo.png",
           total: "",
         },
@@ -104,6 +115,7 @@ const initialState = {
           name: "item 12",
           price: 350.5,
           qty: "",
+          discount: 5,
           img: "img/logo.png",
           total: "",
         },
@@ -119,9 +131,12 @@ export const itemSlice = createSlice({
     addItem: (state, { payload }) => {
       state.items = payload;
     },
+    clearItem: (state) => {
+      state.items = initialState.items;
+    },
 
     extraReducers: {
-      [HYDRATE]: (state, { payload }) => {
+      [HYDRATE]: (state) => {
         return {
           ...state,
           ...payload.items,
@@ -131,5 +146,5 @@ export const itemSlice = createSlice({
   },
 });
 
-export const { addItem } = itemSlice.actions;
+export const { addItem, clearItem } = itemSlice.actions;
 export default itemSlice.reducer;
