@@ -2042,7 +2042,7 @@ ul {
 .about2-area {
   position: relative;
   padding: 375px 0 74px;
-  background: url(img/about2-back.jpg);
+  background: url("../img/about2-back.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -2236,7 +2236,7 @@ ul {
   margin: 0 auto;
 }
 .about-page-left {
-  background: url(img/about1-back.jpg);
+  background: url("../img/about1-back.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

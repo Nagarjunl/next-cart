@@ -12,6 +12,9 @@ export default function Document() {
         <link rel="stylesheet" href="css/font-awesome.min.css" />
         <link rel="stylesheet" href="css/meanmenu.min.css" />
         <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="css/coderplays.css" />        
+        <link href="https://fonts.googleapis.com/css2?family=Fondamento:ital@0;1&display=swap" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Poiret+One&display=swap" rel="stylesheet"/>
       </Head>
       <body>
         <Main />
