@@ -2,7 +2,7 @@ import Link from "next/link";
 export default function Layout({ children }) {
   return (
     <>
-      <div className="wrapper" style={{overflow: "unset"}}>
+      <div className="wrapper" style={{ overflow: "unset" }}>
         <header>
           <div className="header2-area">
             <div className="header-top-area">
@@ -88,6 +88,9 @@ export default function Layout({ children }) {
                             <Link href="product">Product</Link>
                           </li>
                           <li>
+                            <Link href="cart">Cart</Link>
+                          </li>
+                          <li>
                             <Link href="contact">Contact</Link>
                           </li>
                         </ul>
@@ -167,11 +170,10 @@ export default function Layout({ children }) {
           <div className="footer-area-bottom">
             <div className="container">
               <p>
-                &copy; 2023. &nbsp; Designed by
+                &copy; 2023. &nbsp; Designed by &nbsp;
                 <a target="_blank" href="https://coderplays.com/">
-                  coderplays
+                  coderplays.com
                 </a>
-                .com
               </p>
             </div>
           </div>
