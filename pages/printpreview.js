@@ -1,17 +1,11 @@
-import Link from "next/link";
-
 import Layout from "../components/layout";
 import { useSelector, useDispatch } from "react-redux"; // updated
-import {
-  addCartItems,
-  clearCartItems,
-  removeCartItem,
-} from "@/store/slices/cartslice";
-import { addItem, clearItem } from "@/store/slices/itemslice";
 import React, { useState, useEffect } from "react";
 
-export default function Product() {
+export default function PrintPreview() {
   const cartItems = useSelector((state) => state.cart.cartItems);
+  const user = useSelector((state) => state.user.user);
+
   const dispatch = useDispatch();
 
   const [total, setTotal] = useState();
@@ -67,82 +61,55 @@ export default function Product() {
           </div>
 
           <div className="container">
-            <div className="row">
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div className="cart-page-top table-responsive">
-                  <table className="table table-hover">
-                    <thead>
-                      <tr>
-                        <td className="cart-form-heading">#</td>
-                        <td className="cart-form-heading">Product Name</td>
-                        <td className="cart-form-heading">Content</td>
-                        <td className="cart-form-heading">Actual Price</td>
-                        <td className="cart-form-heading">Amount</td>
-                        <td className="cart-form-heading">Quantity</td>
-                        <td className="cart-form-heading">Total</td>
-                        <td className="cart-form-heading"></td>
-                      </tr>
-                    </thead>
-                    <tbody id="quantity-holder">
-                      {cartItems &&
-                        cartItems.map((item, index) => {
-                          return (
-                            <tr key={index}>
-                              <td className="cart-img-holder">
-                                <h3>{index+1}</h3>
-                              </td>
-                              <td>
-                                <h3>
-                                  <a href="#">{item.name}</a>
-                                </h3>
-                              </td>
-                              <td>
-                                <h3>
-                                  <a href="#">{item.content}</a>
-                                </h3>
-                              </td>
-                              <td className="amount">
-                                <strike>{item.actual_amount}</strike>
-                              </td>
-                              <td className="amount">{item.amount}</td>
-                              <td className="amount">{item.qty}</td>
-                              <td className="amount">{item.total}</td>
-                            </tr>
-                          );
-                        })}
-                    </tbody>
-                  </table>
+            <div className="print-container">
+              <div className="header-container">
+                <div className="customer-detail">
+                  <span>Name </span>
+                  <span>
+                    <strong> : {user.name}</strong>
+                  </span>
+                  <span>Address </span> <span>: {user.address}</span>
+                  <span>City </span> <span>: {user.city}</span>
+                  <span>District </span> <span>: {user.district}</span>
+                  <span>Pincode </span> <span>: {user.pincode}</span>
+                </div>
+
+                <div className="bank-detail">
+                  <span>A/C Name </span>
+                  <span>
+                    <strong>: P.Vishnuvarthini</strong>
+                  </span>
+                  <span>A/C Number </span> <span>: 33090100001552</span>
+                  <span>A/C Type </span> <span>: Savings account </span>
+                  <span>Bank Name </span> <span>: Bank of Baroda</span>
+                  <span>IFSC Code </span> <span>: BARBOSIVAKA</span>
                 </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div className="cart-page-bottom-right">
-                  <h3>
-                    Total<span> {total} </span>
-                  </h3>
-                  <h3>
-                    Discount<span> {discount} </span>
-                  </h3>
 
-                  <div className="proceed-button">
-                    <button
-                      className="btn-apply-coupon  mr-15"
-                      onClick={() => {
-                        dispatch(clearCartItems());
-                        dispatch(clearItem());
-                      }}
-                    >
-                      Clear Cart
-                    </button>
-
-                    <Link href="user">
-                      <button className="btn-apply-coupon disabled">
-                        Proceed To Buy
-                      </button>
-                    </Link>
-                  </div>
-                </div>
+              <div className="item-container">
+                <div>#</div>
+                <div>Product Name</div>
+                <div>Content</div>
+                {/* <div>Actual Price</div> */}
+                <div>Amount</div>
+                <div>Quantity</div>
+                <div>Total</div>
+                {cartItems &&
+                  cartItems.map((item, index) => {
+                    return (
+                      <>
+                        <div>{index + 1}</div>
+                        <div>{item.name}</div>
+                        <div className="text-center">{item.content}</div>
+                        {/* <div className="amount">
+                        <strike>{item.actual_amount}</strike>
+                      </div> */}
+                        <div className="text-right">{item.amount}</div>
+                        <div className="text-center">{item.qty}</div>
+                        <div className="text-right">{item.total}</div>
+                      </>
+                    );
+                  })}
               </div>
             </div>
           </div>

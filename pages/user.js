@@ -1,7 +1,7 @@
 import Layout from "../components/layout";
 import UserForm from "@/components/userform";
 
-export default function Contact() {
+export default function BillingDetail() {
   return (
     <>
       <Layout>
