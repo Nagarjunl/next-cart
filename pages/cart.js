@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import Layout from "../components/layout";
 import { useSelector, useDispatch } from "react-redux"; // updated
 import {
   addCartItems,
@@ -8,8 +9,6 @@ import {
 } from "@/store/slices/cartslice";
 import { addItem, clearItem } from "@/store/slices/itemslice";
 import React, { useState, useEffect } from "react";
-
-import Layout from "../components/layout";
 
 export default function Product() {
   const items = useSelector((state) => state.items.items);
@@ -92,7 +91,7 @@ export default function Product() {
         <div className="inner-page-banner-area inner-page-banner-area-product">
           <div className="container">
             <div className="pagination-area">
-              <h2>Product</h2>
+              <h2>Cart</h2>
             </div>
           </div>
         </div>
@@ -129,14 +128,6 @@ export default function Product() {
                           <span className="total crt"> {total} </span>
                         </h3>
                       </td>
-                      <td>
-                        <Link href="cart">
-                          <img
-                            src="img/cart-modal.png"
-                            className="cart-img-modal"
-                          />
-                        </Link>
-                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -164,55 +155,46 @@ export default function Product() {
                       </tr>
                     </thead>
                     <tbody id="quantity-holder">
-                      {items &&
-                        items.map((item, index) => {
-                          return (
-                            <>
-                              <tr key={item.id}>
-                                <td colSpan="8">
-                                  <h4 className="category-title-center text-center">
-                                    {item.category}
-                                  </h4>
-                                </td>
-                              </tr>
-                              {item.items.map((item, index) => {
-                                return (
-                                  <tr key={item.id * 2}>
-                                    <td className="cart-img-holder">
-                                      {/* <a href="#">
+                      {cartItems.length > 0 ? (
+                        <>
+                          {cartItems.map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td className="cart-img-holder">
+                                  {/* <a href="#">
                                         <img
                                           src={item.img}
                                           alt="cart"
                                           className="img-responsive"
                                         />
                                       </a> */}
-                                      <h3>{item.id}</h3>
-                                    </td>
-                                    <td>
-                                      <h3>
-                                        <a href="#">{item.name}</a>
-                                      </h3>
-                                    </td>
-                                    <td>
-                                      <h3>
-                                        <a href="#">{item.content}</a>
-                                      </h3>
-                                    </td>
-                                    <td className="amount">
-                                      <strike>{item.actual_amount}</strike>
-                                    </td>
-                                    <td className="amount">{item.amount}</td>
-                                    <td className="quantity">
-                                      <div className="input-group quantity-holder">
-                                        <input
-                                          type="text"
-                                          name="quantity"
-                                          className="form-control quantity-input"
-                                          value={item.qty}
-                                          onChange={(e) => qtyChange(e, item)}
-                                          autoComplete="off"
-                                        />
-                                        {/* <div className="input-group-btn-vertical">
+                                  <h3>{item.id}</h3>
+                                </td>
+                                <td>
+                                  <h3>
+                                    <a href="#">{item.name}</a>
+                                  </h3>
+                                </td>
+                                <td>
+                                  <h3>
+                                    <a href="#">{item.content}</a>
+                                  </h3>
+                                </td>
+                                <td className="amount">
+                                  <strike>{item.actual_amount}</strike>
+                                </td>
+                                <td className="amount">{item.amount}</td>
+                                <td className="quantity">
+                                  <div className="input-group quantity-holder">
+                                    <input
+                                      type="text"
+                                      name="quantity"
+                                      className="form-control quantity-input"
+                                      value={item.qty}
+                                      onChange={(e) => qtyChange(e, item)}
+                                      autoComplete="off"
+                                    />
+                                    {/* <div className="input-group-btn-vertical">
                                           <button
                                             className="btn btn-default quantity-plus"
                                             type="button"
@@ -238,43 +220,48 @@ export default function Product() {
                                             ></i>
                                           </button>
                                         </div> */}
-                                      </div>
-                                    </td>
-                                    <td className="amount">{item.total}</td>
-                                    <td className="dismiss">
-                                      <button
-                                        onClick={(e) => qtyChange(e, item)}
-                                      >
-                                        <i
-                                          className="fa fa-times"
-                                          aria-hidden="true"
-                                        ></i>
-                                      </button>
-                                    </td>
-                                  </tr>
-                                );
-                              })}
-                            </>
-                          );
-                        })}
+                                  </div>
+                                </td>
+                                <td className="amount">{item.total}</td>
+                                <td className="dismiss">
+                                  <button onClick={(e) => qtyChange(e, item)}>
+                                    <i
+                                      className="fa fa-times"
+                                      aria-hidden="true"
+                                    ></i>
+                                  </button>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </>
+                      ) : (
+                        <tr>
+                          <td colSpan="8">
+                            <h4 className="category-title-center text-center">
+                              No Items In Your Cart
+                            </h4>
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>
               </div>
             </div>
             <div className="row">
-              <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div className="cart-page-bottom-right">
                   <h3>
                     Total<span> {total} </span>
                   </h3>
                   <h3>
-                    DisCount<span> {discount} </span>
+                    Discount<span> {discount} </span>
                   </h3>
 
                   <div className="proceed-button">
                     <button
-                      className="btn-apply-coupon disabled mr-15"
+                      className="btn-apply-coupon  mr-15"
                       onClick={() => {
                         dispatch(clearCartItems());
                         dispatch(clearItem());
@@ -282,9 +269,10 @@ export default function Product() {
                     >
                       Clear Cart
                     </button>
-                    <Link href="cart">
+
+                    <Link href="user">
                       <button className="btn-apply-coupon disabled">
-                        Go To Cart
+                        Proceed To Buy
                       </button>
                     </Link>
                   </div>

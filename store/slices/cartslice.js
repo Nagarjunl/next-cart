@@ -24,6 +24,22 @@ export const cartSlice = createSlice({
 
 const addToCart = (state, payload) => {
   return state.cartItems.concat(payload);
+  // return [...cartItems, payload];
+
+  // [...cartItems, payload];
+
+  // return cartItems.concat(payload).map((item) => {
+  //   if (item.id !== payload.id) {
+  //     console.log("if");
+  //     return item;
+  //   }
+  //   console.log("else");
+  //   return {
+  //     ...item,
+  //     qty: payload.qty,
+  //     total: payload.total,
+  //   };
+  // });
 };
 
 export const { addCartItems, clearCartItems, removeCartItem } =
