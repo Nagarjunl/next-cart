@@ -1,39 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addUser } from "../store/slices/userslice";
+import { useRouter } from "next/navigation";
 
 const UserForm = () => {
-  //   const [name, setName] = useState("");
-  //   const [mobileNumber, setMobileNumber] = useState("");
-  //   const [address, setAddress] = useState("");
-  //   const [city, setCity] = useState("");
-  //   const [district, setDistrict] = useState("");
-  //   const [pincode, setPincode] = useState("");
-
+  const router = useRouter();
   const user = useSelector((state) => state.user.user);
-
-  console.log("user", user);
-  console.log("user", user.name);
-
   const dispatch = useDispatch();
-
   function handleSubmit(e) {
-    console.log("sdfsdf");
-    // Prevent the browser from reloading the page
     e.preventDefault();
-
-    // Read the form data
     const form = e.target;
     const formData = new FormData(form);
-
-    // You can pass formData as a fetch body directly:
-    // fetch("/some-api", { method: form.method, body: formData });
-
-    // Or you can work with it as a plain object:
     const formJson = Object.fromEntries(formData.entries());
     console.log(formJson);
-
     dispatch(addUser(formJson));
+    router.push("/printpreview");
   }
 
   return (
@@ -51,8 +32,7 @@ const UserForm = () => {
               name="name"
               className="form-control"
               required
-              defaultValue={user.name ? `${user.name}` : ""}
-              //   onChange={(e) => setName(e.target.value)}
+              defaultValue={user?.name ? `${user.name}` : ""}
             />
           </div>
         </div>
@@ -64,9 +44,7 @@ const UserForm = () => {
               name="mobilenumber"
               className="form-control"
               required
-              defaultValue={user.mobilenumber ? `${user.mobilenumber}` : ""}
-
-              //   onChange={(e) => setMobileNumber(e.target.value)}
+              defaultValue={user?.mobilenumber ? `${user.mobilenumber}` : ""}
             />
           </div>
         </div>
@@ -83,8 +61,7 @@ const UserForm = () => {
               rows="7"
               cols="20"
               required
-              defaultValue={user.address ? `${user.address}` : ""}
-              //   onChange={(e) => setAddress(e.target.value)}
+              defaultValue={user?.address ? `${user.address}` : ""}
             ></textarea>
           </div>
         </div>
@@ -99,8 +76,7 @@ const UserForm = () => {
               name="city"
               className="form-control"
               required
-              defaultValue={user.city ? `${user.city}` : ""}
-              //   onChange={(e) => setCity(e.target.value)}
+              defaultValue={user?.city ? `${user.city}` : ""}
             />
           </div>
         </div>
@@ -112,9 +88,7 @@ const UserForm = () => {
               name="district"
               className="form-control"
               required
-              defaultValue={user.district ? `${user.district}` : ""}
-
-              //   onChange={(e) => setDistrict(e.target.value)}
+              defaultValue={user?.district ? `${user.district}` : ""}
             />
           </div>
         </div>
@@ -126,9 +100,7 @@ const UserForm = () => {
               name="pincode"
               className="form-control"
               required
-              defaultValue={user.pincode ? `${user.pincode}` : ""}
-
-              //   onChange={(e) => setPincode(e.target.value)}
+              defaultValue={user?.pincode ? `${user.pincode}` : ""}
             />
           </div>
         </div>
@@ -142,7 +114,7 @@ const UserForm = () => {
               type="submit"
               value="Login"
             >
-              PLace Order
+              Place Order
             </button>
           </div>
         </div>

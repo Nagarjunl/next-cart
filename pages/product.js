@@ -1,33 +1,31 @@
-import Link from "next/link";
-
 import { useSelector, useDispatch } from "react-redux"; // updated
 import {
   addCartItems,
   clearCartItems,
   removeCartItem,
+  updateCartItems,
 } from "@/store/slices/cartslice";
 import { addItem, clearItem } from "@/store/slices/itemslice";
 import React, { useState, useEffect } from "react";
 
 import Layout from "../components/layout";
+import Link from "next/link";
 
 export default function Product() {
   const items = useSelector((state) => state.items.items);
-  const cartItems = useSelector((state) => state.cart.cartItems);
   const dispatch = useDispatch();
 
-  const [total, setTotal] = useState();
-  const [discount, setDiscount] = useState();
+  const [total, setTotal] = useState(0);
+  const [discount, setDiscount] = useState(0);
 
   const qtyChange = (e, itemObj) => {
-    const quantity = e.target?.value || 0;
+    const quantity = parseInt(e) || 0;
     const id = itemObj.id;
     let cartItem = { ...itemObj };
 
     if (quantity) {
       cartItem.total = quantity * cartItem.amount;
       cartItem.qty = quantity;
-      dispatch(addCartItems(cartItem));
       dispatch(
         addItem(
           items.map((obj) => {
@@ -39,8 +37,7 @@ export default function Product() {
                   ? {
                       ...item,
                       total: cartItem.total,
-                      qty: quantity,
-                      amount: item.amount,
+                      qty: cartItem.qty,
                     }
                   : item
               ),
@@ -49,7 +46,6 @@ export default function Product() {
         )
       );
     } else {
-      dispatch(removeCartItem(itemObj));
       dispatch(
         addItem(
           items.map((obj) => {
@@ -62,7 +58,6 @@ export default function Product() {
                       ...item,
                       total: "",
                       qty: "",
-                      amount: item.amount,
                     }
                   : item
               ),
@@ -74,17 +69,25 @@ export default function Product() {
   };
 
   useEffect(() => {
-    setTotal(cartItems.reduce((acc, cartItem) => acc + cartItem.total, 0));
-    setDiscount(
-      cartItems.reduce(
-        (acc, cartItem) =>
-          cartItem.actual_amount === ""
-            ? acc
-            : acc + (cartItem.actual_amount - cartItem.amount) * cartItem.qty,
+    let itemsArray = [];
+    items.map((item) => item.items.map((item) => itemsArray.push(item)));
+    setTotal(
+      itemsArray.reduce(
+        (acc, item) => (item.total === "" ? acc : acc + item.total),
         0
       )
     );
-  }, [setTotal, cartItems]);
+
+    // setDiscount(
+    //   itemsArray.reduce(
+    //     (acc, item) =>
+    //       item.actual_amount === ""
+    //         ? acc
+    //         : acc + (item.actual_amount - item.amount) * item.qty,
+    //     0
+    //   )
+    // );
+  }, [setTotal, items]);
 
   return (
     <>
@@ -108,18 +111,14 @@ export default function Product() {
                         <h3 className="crt-h3">Products </h3>
                         <h3 className="crt-colon">:</h3>
                         <h3 className="crt-h3">
-                          <span className="no_of_products crt">
-                            {cartItems.length || 0}
-                          </span>
+                          <span className="no_of_products crt">{0}</span>
                         </h3>
                       </td>
                       <td>
                         <h3 className="crt-h3">Discount </h3>
                         <h3 className="crt-colon">:</h3>
                         <h3 className="crt-h3">
-                          <span className="discount_sum crt">
-                            {discount || 0}
-                          </span>
+                          <span className="discount_sum crt">{discount}</span>
                         </h3>
                       </td>
                       <td>
@@ -205,14 +204,17 @@ export default function Product() {
                                     <td className="quantity">
                                       <div className="input-group quantity-holder">
                                         <input
-                                          type="text"
+                                          type="number"
+                                          // min={0}
                                           name="quantity"
                                           className="form-control quantity-input"
                                           value={item.qty}
-                                          onChange={(e) => qtyChange(e, item)}
+                                          onChange={(e) =>
+                                            qtyChange(e.target.value, item)
+                                          }
                                           autoComplete="off"
                                         />
-                                        {/* <div className="input-group-btn-vertical">
+                                        <div className="input-group-btn-vertical">
                                           <button
                                             className="btn btn-default quantity-plus"
                                             type="button"
@@ -237,7 +239,7 @@ export default function Product() {
                                               aria-hidden="true"
                                             ></i>
                                           </button>
-                                        </div> */}
+                                        </div>
                                       </div>
                                     </td>
                                     <td className="amount">{item.total}</td>

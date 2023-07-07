@@ -281,6 +281,13 @@ img.footer-area {
   padding: 86px 0 95px;
 }
 
+.cart-page-area .cart-page-top table tr .quantity .quantity-holder {
+  width: 186px;
+}
+.cart-page-area .cart-page-top table tr .quantity .quantity-holder input {
+  width: 100px;
+}
+
 @media (min-width: 768px) {
   .ccrt td:nth-child(2) {
     padding: 0 25px;
