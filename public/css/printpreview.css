@@ -1,9 +1,63 @@
 .print-container {
   display: grid;
 }
-.header-container {
+.invoide-detail-container {
+  display: grid;
+  grid-template-columns: [line1] auto [col3-end] 400px [line7];
+  border-top: 1px solid black;
+  border-right: 1px solid black;
+}
+.invoide-detail-container > div {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-left: 1px solid black;
+  padding: 0 10px;
+}
+.logo-container {
   display: grid;
   border-top: 1px solid black;
+  border-right: 1px solid black;
+  grid-template-columns: [line1] 40px [line2] auto [line3] 100px [line4] 100px [line5] 100px [line6] 100px [line7];
+}
+.logo-container > div {
+  font-weight: 600;
+  padding: 0 10px;
+  border-left: 1px solid black;
+}
+.logo-container-left {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column: 1 / 3;
+}
+.logo-container-right {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column: 3 / 7;
+}
+.header-container-header {
+  display: grid;
+  border-top: 1px solid black;
+  border-right: 1px solid black;
+  grid-template-columns: [line1] 300px [line2] auto [line3] 100px [line4] 100px [line5] 100px [line6] 100px [line7];
+}
+.header-container-header > div {
+  border-left: 1px solid black;
+  font-weight: 600;
+  padding: 0 10px;
+}
+.customer-detail-header {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column: 1 / 3;
+}
+.bank-detail-header {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column: 3 / 7;
+}
+
+.header-container {
+  display: grid;
   border-right: 1px solid black;
   grid-template-columns: [line1] 40px [line2] auto [line3] 100px [line4] 100px [line5] 100px [line6] 100px [line7];
 }
@@ -33,4 +87,23 @@
   border-left: 1px solid black;
   font-weight: 600;
   padding: 0 10px;
+}
+
+.total-container {
+  display: grid;
+  grid-template-columns: [col1-start] auto [col6-end] 100px [line7];
+  border-right: 1px solid black;
+}
+.total-container > div {
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
+  font-weight: 600;
+  padding: 0 10px;
+}
+.thank-you-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
 }

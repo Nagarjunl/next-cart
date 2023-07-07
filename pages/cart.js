@@ -2,88 +2,99 @@ import Link from "next/link";
 
 import Layout from "../components/layout";
 import { useSelector, useDispatch } from "react-redux"; // updated
-import {
-  addCartItems,
-  clearCartItems,
-  removeCartItem,
-} from "@/store/slices/cartslice";
+import { clearCartItems } from "@/store/slices/cartslice";
 import { addItem, clearItem } from "@/store/slices/itemslice";
 import React, { useState, useEffect } from "react";
 
 export default function Product() {
   const items = useSelector((state) => state.items.items);
-  const cartItems = useSelector((state) => state.cart.cartItems);
   const dispatch = useDispatch();
 
-  const [total, setTotal] = useState();
-  const [discount, setDiscount] = useState();
+  const [total, setTotal] = useState(0);
+  const [discount, setDiscount] = useState(0);
+  const [cartItems, setCartItems] = useState([]);
 
   const qtyChange = (e, itemObj) => {
-    const quantity = e.target?.value || 0;
+    const quantity = parseInt(e) || 0;
     const id = itemObj.id;
-    let cartItem = { ...itemObj };
+    let changedItem = { ...itemObj };
 
-    if (quantity) {
-      cartItem.total = quantity * cartItem.amount;
-      cartItem.qty = quantity;
-      dispatch(addCartItems(cartItem));
-      dispatch(
-        addItem(
-          items.map((obj) => {
-            const { category, items } = { ...obj };
-            return {
-              category: category,
-              items: items.map((item) =>
-                item.id === id
-                  ? {
-                      ...item,
-                      total: cartItem.total,
-                      qty: quantity,
-                      amount: item.amount,
-                    }
-                  : item
-              ),
-            };
-          })
-        )
-      );
-    } else {
-      dispatch(removeCartItem(itemObj));
-      dispatch(
-        addItem(
-          items.map((obj) => {
-            const { category, items } = { ...obj };
-            return {
-              category: category,
-              items: items.map((item) =>
-                item.id === id
-                  ? {
-                      ...item,
-                      total: "",
-                      qty: "",
-                      amount: item.amount,
-                    }
-                  : item
-              ),
-            };
-          })
-        )
-      );
-    }
+    changedItem.total = quantity * changedItem.amount;
+    changedItem.qty = quantity;
+    dispatch(
+      addItem(
+        items.map((obj) => {
+          const { category, items } = { ...obj };
+          return {
+            category: category,
+            items: items.map((item) =>
+              item.id === id
+                ? {
+                    ...item,
+                    total: changedItem.total,
+                    qty: changedItem.qty,
+                  }
+                : item
+            ),
+          };
+        })
+      )
+    );
+  };
+
+  const removeItemFromCart = (e, itemObj) => {
+    const quantity = parseInt(e) || 0;
+    const id = itemObj.id;
+    let changedItem = { ...itemObj };
+
+    changedItem.total = quantity * changedItem.amount;
+    changedItem.qty = quantity;
+    dispatch(
+      addItem(
+        items.map((obj) => {
+          const { category, items } = { ...obj };
+          return {
+            category: category,
+            items: items.map((item) =>
+              item.id === id
+                ? {
+                    ...item,
+                    total: "",
+                    qty: "",
+                  }
+                : item
+            ),
+          };
+        })
+      )
+    );
   };
 
   useEffect(() => {
-    setTotal(cartItems.reduce((acc, cartItem) => acc + cartItem.total, 0));
-    setDiscount(
-      cartItems.reduce(
-        (acc, cartItem) =>
-          cartItem.actual_amount === ""
-            ? acc
-            : acc + (cartItem.actual_amount - cartItem.amount) * cartItem.qty,
+    let itemsArray = [];
+    items.map((item) => item.items.map((item) => itemsArray.push(item)));
+
+    setCartItems(itemsArray.filter((item) => item.total !== ""));
+
+    setTotal(
+      itemsArray.reduce(
+        (acc, item) => (item.total === "" ? acc : acc + item.total),
         0
       )
     );
-  }, [setTotal, cartItems]);
+
+    // setDiscount(
+    //   itemsArray.reduce(
+    //     (acc, item) =>
+    //       item.actual_amount === ""
+    //         ? acc
+    //         : acc + (item.actual_amount - item.amount) * item.qty,
+    //     0
+    //   )
+    // );
+  }, [setTotal, items, setCartItems]);
+
+  // console.log(cartItems.length);
 
   return (
     <>
@@ -157,83 +168,86 @@ export default function Product() {
                     <tbody id="quantity-holder">
                       {cartItems.length > 0 ? (
                         <>
-                          {cartItems.map((item, index) => {
-                            return (
-                              <tr key={index}>
-                                <td className="cart-img-holder">
-                                  {/* <a href="#">
+                          {cartItems.map((item, index) => (
+                            <tr key={item.id * 2}>
+                              <td className="cart-img-holder">
+                                {/* <a href="#">
                                         <img
                                           src={item.img}
                                           alt="cart"
                                           className="img-responsive"
                                         />
                                       </a> */}
-                                  <h3>{item.id}</h3>
-                                </td>
-                                <td>
-                                  <h3>
-                                    <a href="#">{item.name}</a>
-                                  </h3>
-                                </td>
-                                <td>
-                                  <h3>
-                                    <a href="#">{item.content}</a>
-                                  </h3>
-                                </td>
-                                <td className="amount">
-                                  <strike>{item.actual_amount}</strike>
-                                </td>
-                                <td className="amount">{item.amount}</td>
-                                <td className="quantity">
-                                  <div className="input-group quantity-holder">
-                                    <input
-                                      type="text"
-                                      name="quantity"
-                                      className="form-control quantity-input"
-                                      value={item.qty}
-                                      onChange={(e) => qtyChange(e, item)}
-                                      autoComplete="off"
-                                    />
-                                    {/* <div className="input-group-btn-vertical">
-                                          <button
-                                            className="btn btn-default quantity-plus"
-                                            type="button"
-                                            onClick={() =>
-                                              qtyChange(item.qty + 1, item)
-                                            }
-                                          >
-                                            <i
-                                              className="fa fa-plus"
-                                              aria-hidden="true"
-                                            ></i>
-                                          </button>
-                                          <button
-                                            className="btn btn-default quantity-minus"
-                                            type="button"
-                                            onClick={() =>
-                                              qtyChange(item.qty - 1, item)
-                                            }
-                                          >
-                                            <i
-                                              className="fa fa-minus"
-                                              aria-hidden="true"
-                                            ></i>
-                                          </button>
-                                        </div> */}
+                                <h3>{index + 1}</h3>
+                              </td>
+                              <td>
+                                <h3>
+                                  <a href="#">{item.name}</a>
+                                </h3>
+                              </td>
+                              <td>
+                                <h3>
+                                  <a href="#">{item.content}</a>
+                                </h3>
+                              </td>
+                              <td className="amount">
+                                <strike>{item.actual_amount}</strike>
+                              </td>
+                              <td className="amount">{item.amount}</td>
+                              <td className="quantity">
+                                <div className="input-group quantity-holder">
+                                  <input
+                                    type="number"
+                                    // min={0}
+                                    name="quantity"
+                                    className="form-control quantity-input"
+                                    value={item.qty}
+                                    onChange={(e) =>
+                                      qtyChange(e.target.value, item)
+                                    }
+                                    autoComplete="off"
+                                  />
+                                  <div className="input-group-btn-vertical">
+                                    <button
+                                      className="btn btn-default quantity-plus"
+                                      type="button"
+                                      onClick={() =>
+                                        qtyChange(item.qty + 1, item)
+                                      }
+                                    >
+                                      <i
+                                        className="fa fa-plus"
+                                        aria-hidden="true"
+                                      ></i>
+                                    </button>
+                                    <button
+                                      className="btn btn-default quantity-minus"
+                                      type="button"
+                                      onClick={() =>
+                                        qtyChange(item.qty - 1, item)
+                                      }
+                                    >
+                                      <i
+                                        className="fa fa-minus"
+                                        aria-hidden="true"
+                                      ></i>
+                                    </button>
                                   </div>
-                                </td>
-                                <td className="amount">{item.total}</td>
-                                <td className="dismiss">
-                                  <button onClick={(e) => qtyChange(e, item)}>
-                                    <i
-                                      className="fa fa-times"
-                                      aria-hidden="true"
-                                    ></i>
-                                  </button>
-                                </td>
-                              </tr>
-                            );
-                          })}
+                                </div>
+                              </td>
+                              <td className="amount">{item.total}</td>
+                              <td className="dismiss">
+                                <button
+                                  onClick={(e) => removeItemFromCart(e, item)}
+                                >
+                                  <i
+                                    className="fa fa-times"
+                                    aria-hidden="true"
+                                  ></i>
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
                         </>
                       ) : (
                         <tr>
