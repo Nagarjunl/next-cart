@@ -10,6 +10,8 @@ export default function Product() {
   const items = useSelector((state) => state.items.items);
   const dispatch = useDispatch();
 
+  let showDiscount = false;
+
   const [total, setTotal] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [cartItems, setCartItems] = useState([]);
@@ -83,16 +85,18 @@ export default function Product() {
       )
     );
 
-    // setDiscount(
-    //   itemsArray.reduce(
-    //     (acc, item) =>
-    //       item.actual_amount === ""
-    //         ? acc
-    //         : acc + (item.actual_amount - item.amount) * item.qty,
-    //     0
-    //   )
-    // );
-  }, [setTotal, items, setCartItems]);
+    if (showDiscount) {
+      setDiscount(
+        itemsArray.reduce(
+          (acc, item) =>
+            item.actual_amount === ""
+              ? acc
+              : acc + (item.actual_amount - item.amount) * item.qty,
+          0
+        )
+      );
+    }
+  }, [setTotal, items, setCartItems, showDiscount]);
 
   // console.log(cartItems.length);
 
@@ -123,15 +127,17 @@ export default function Product() {
                           </span>
                         </h3>
                       </td>
-                      <td>
-                        <h3 className="crt-h3">Discount </h3>
-                        <h3 className="crt-colon">:</h3>
-                        <h3 className="crt-h3">
-                          <span className="discount_sum crt">
-                            {discount || 0}
-                          </span>
-                        </h3>
-                      </td>
+                      {showDiscount && (
+                        <td>
+                          <h3 className="crt-h3">Discount </h3>
+                          <h3 className="crt-colon">:</h3>
+                          <h3 className="crt-h3">
+                            <span className="discount_sum crt">
+                              {discount || 0}
+                            </span>
+                          </h3>
+                        </td>
+                      )}
                       <td>
                         <h3 className="crt-h3">Total </h3>
                         <h3 className="crt-colon">:</h3>
@@ -157,11 +163,19 @@ export default function Product() {
                       <tr>
                         <td className="cart-form-heading">#</td>
                         <td className="cart-form-heading">Product Name</td>
-                        <td className="cart-form-heading">Content</td>
-                        <td className="cart-form-heading">Actual Price</td>
-                        <td className="cart-form-heading">Amount</td>
-                        <td className="cart-form-heading">Quantity</td>
-                        <td className="cart-form-heading">Total</td>
+                        <td className="cart-form-heading text-center">Unit</td>
+                        {showDiscount && (
+                          <td className="cart-form-heading text-center">
+                            Actual Price
+                          </td>
+                        )}
+                        <td className="cart-form-heading text-center">
+                          Amount
+                        </td>
+                        <td className="cart-form-heading text-center">
+                          Quantity
+                        </td>
+                        <td className="cart-form-heading text-center">Total</td>
                         <td className="cart-form-heading"></td>
                       </tr>
                     </thead>
@@ -171,28 +185,19 @@ export default function Product() {
                           {cartItems.map((item, index) => (
                             <tr key={item.id * 2}>
                               <td className="cart-img-holder">
-                                {/* <a href="#">
-                                        <img
-                                          src={item.img}
-                                          alt="cart"
-                                          className="img-responsive"
-                                        />
-                                      </a> */}
                                 <h3>{index + 1}</h3>
                               </td>
                               <td>
-                                <h3>
-                                  <a href="#">{item.name}</a>
-                                </h3>
+                                <h3>{item.name}</h3>
                               </td>
                               <td>
-                                <h3>
-                                  <a href="#">{item.content}</a>
-                                </h3>
+                                <h3>{item.unit}</h3>
                               </td>
-                              <td className="amount">
-                                <strike>{item.actual_amount}</strike>
-                              </td>
+                              {showDiscount && (
+                                <td className="amount">
+                                  <strike>{item.actual_amount}</strike>
+                                </td>
+                              )}
                               <td className="amount">{item.amount}</td>
                               <td className="quantity">
                                 <div className="input-group quantity-holder">

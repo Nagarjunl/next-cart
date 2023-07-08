@@ -6,7 +6,7 @@ import {
   updateCartItems,
 } from "@/store/slices/cartslice";
 import { addItem, clearItem } from "@/store/slices/itemslice";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 
 import Layout from "../components/layout";
 import Link from "next/link";
@@ -15,8 +15,11 @@ export default function Product() {
   const items = useSelector((state) => state.items.items);
   const dispatch = useDispatch();
 
+  let showDiscount = false;
+
   const [total, setTotal] = useState(0);
   const [discount, setDiscount] = useState(0);
+  const [cartItems, setCartItems] = useState([]);
 
   const qtyChange = (e, itemObj) => {
     const quantity = parseInt(e) || 0;
@@ -71,23 +74,25 @@ export default function Product() {
   useEffect(() => {
     let itemsArray = [];
     items.map((item) => item.items.map((item) => itemsArray.push(item)));
+    setCartItems(itemsArray.filter((item) => item.total !== ""));
     setTotal(
       itemsArray.reduce(
         (acc, item) => (item.total === "" ? acc : acc + item.total),
         0
       )
     );
-
-    // setDiscount(
-    //   itemsArray.reduce(
-    //     (acc, item) =>
-    //       item.actual_amount === ""
-    //         ? acc
-    //         : acc + (item.actual_amount - item.amount) * item.qty,
-    //     0
-    //   )
-    // );
-  }, [setTotal, items]);
+    if (showDiscount) {
+      setDiscount(
+        itemsArray.reduce(
+          (acc, item) =>
+            item.actual_amount === ""
+              ? acc
+              : acc + (item.actual_amount - item.amount) * item.qty,
+          0
+        )
+      );
+    }
+  }, [setTotal, items, showDiscount]);
 
   return (
     <>
@@ -111,16 +116,20 @@ export default function Product() {
                         <h3 className="crt-h3">Products </h3>
                         <h3 className="crt-colon">:</h3>
                         <h3 className="crt-h3">
-                          <span className="no_of_products crt">{0}</span>
+                          <span className="no_of_products crt">
+                            {cartItems.length || 0}
+                          </span>
                         </h3>
                       </td>
-                      <td>
-                        <h3 className="crt-h3">Discount </h3>
-                        <h3 className="crt-colon">:</h3>
-                        <h3 className="crt-h3">
-                          <span className="discount_sum crt">{discount}</span>
-                        </h3>
-                      </td>
+                      {showDiscount && (
+                        <td>
+                          <h3 className="crt-h3">Discount </h3>
+                          <h3 className="crt-colon">:</h3>
+                          <h3 className="crt-h3">
+                            <span className="discount_sum crt">{discount}</span>
+                          </h3>
+                        </td>
+                      )}
                       <td>
                         <h3 className="crt-h3">Total </h3>
                         <h3 className="crt-colon">:</h3>
@@ -154,8 +163,10 @@ export default function Product() {
                       <tr>
                         <td className="cart-form-heading">#</td>
                         <td className="cart-form-heading">Product Name</td>
-                        <td className="cart-form-heading">Content</td>
-                        <td className="cart-form-heading">Actual Price</td>
+                        <td className="cart-form-heading">Unit</td>
+                        {showDiscount && (
+                          <td className="cart-form-heading">Actual Price</td>
+                        )}
                         <td className="cart-form-heading">Amount</td>
                         <td className="cart-form-heading">Quantity</td>
                         <td className="cart-form-heading">Total</td>
@@ -164,9 +175,9 @@ export default function Product() {
                     </thead>
                     <tbody id="quantity-holder">
                       {items &&
-                        items.map((item, index) => {
+                        items.map((item) => {
                           return (
-                            <>
+                            <Fragment key={item.id}>
                               <tr key={item.id}>
                                 <td colSpan="8">
                                   <h4 className="category-title-center text-center">
@@ -174,32 +185,23 @@ export default function Product() {
                                   </h4>
                                 </td>
                               </tr>
-                              {item.items.map((item, index) => {
+                              {item.items.map((item) => {
                                 return (
-                                  <tr key={item.id * 2}>
+                                  <tr key={item.id}>
                                     <td className="cart-img-holder">
-                                      {/* <a href="#">
-                                        <img
-                                          src={item.img}
-                                          alt="cart"
-                                          className="img-responsive"
-                                        />
-                                      </a> */}
                                       <h3>{item.id}</h3>
                                     </td>
                                     <td>
-                                      <h3>
-                                        <a href="#">{item.name}</a>
-                                      </h3>
+                                      <h3>{item.name}</h3>
                                     </td>
                                     <td>
-                                      <h3>
-                                        <a href="#">{item.content}</a>
-                                      </h3>
+                                      <h3>{item.unit}</h3>
                                     </td>
-                                    <td className="amount">
-                                      <strike>{item.actual_amount}</strike>
-                                    </td>
+                                    {showDiscount && (
+                                      <td className="amount">
+                                        <strike>{item.actual_amount}</strike>
+                                      </td>
+                                    )}
                                     <td className="amount">{item.amount}</td>
                                     <td className="quantity">
                                       <div className="input-group quantity-holder">
@@ -256,7 +258,7 @@ export default function Product() {
                                   </tr>
                                 );
                               })}
-                            </>
+                            </Fragment>
                           );
                         })}
                     </tbody>
@@ -270,10 +272,11 @@ export default function Product() {
                   <h3>
                     Total<span> {total} </span>
                   </h3>
-                  <h3>
-                    DisCount<span> {discount} </span>
-                  </h3>
-
+                  {showDiscount && (
+                    <h3>
+                      DisCount<span> {discount} </span>
+                    </h3>
+                  )}
                   <div className="proceed-button">
                     <button
                       className="btn-apply-coupon disabled mr-15"
