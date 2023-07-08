@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import ReactPdf from "./reactpdf";
 import { PDFViewer } from "@react-pdf/renderer";
 import PdfBill from "./pdfbill";
+import PdfBillStyle from "./pdfbillstyle";
 
 export default function PrintPreview() {
   const user = useSelector((state) => state.user.user);
@@ -163,17 +164,10 @@ export default function PrintPreview() {
           </div> */}
 
           <div className="container">
-            {/* <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-              <ReactPdf />
-            </div>
-            <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12"> */}
-            <PdfBill />
-            {/* </div> */}
+            <PdfBillStyle />
           </div>
         </div>
       </Layout>
-
-      {/* <BillPrint /> */}
     </>
   );
 }
