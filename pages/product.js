@@ -1,98 +1,21 @@
-import { useSelector, useDispatch } from "react-redux"; // updated
-import {
-  addCartItems,
-  clearCartItems,
-  removeCartItem,
-  updateCartItems,
-} from "@/store/slices/cartslice";
-import { addItem, clearItem } from "@/store/slices/itemslice";
-import React, { useState, useEffect, Fragment } from "react";
+import React, { Fragment } from "react";
+import { clearItem } from "@/store/slices/itemslice";
 
-import Layout from "../components/layout";
 import Link from "next/link";
 
+import Layout from "../components/layout";
+import ItemHook from "@/hooks/itemHook";
+
 export default function Product() {
-  const items = useSelector((state) => state.items.items);
-  const dispatch = useDispatch();
-
-  let showDiscount = false;
-
-  const [total, setTotal] = useState(0);
-  const [discount, setDiscount] = useState(0);
-  const [cartItems, setCartItems] = useState([]);
-
-  const qtyChange = (e, itemObj) => {
-    const quantity = parseInt(e) || 0;
-    const id = itemObj.id;
-    let cartItem = { ...itemObj };
-
-    if (quantity) {
-      cartItem.total = quantity * cartItem.amount;
-      cartItem.qty = quantity;
-      dispatch(
-        addItem(
-          items.map((obj) => {
-            const { category, items } = { ...obj };
-            return {
-              category: category,
-              items: items.map((item) =>
-                item.id === id
-                  ? {
-                      ...item,
-                      total: cartItem.total,
-                      qty: cartItem.qty,
-                    }
-                  : item
-              ),
-            };
-          })
-        )
-      );
-    } else {
-      dispatch(
-        addItem(
-          items.map((obj) => {
-            const { category, items } = { ...obj };
-            return {
-              category: category,
-              items: items.map((item) =>
-                item.id === id
-                  ? {
-                      ...item,
-                      total: "",
-                      qty: "",
-                    }
-                  : item
-              ),
-            };
-          })
-        )
-      );
-    }
-  };
-
-  useEffect(() => {
-    let itemsArray = [];
-    items.map((item) => item.items.map((item) => itemsArray.push(item)));
-    setCartItems(itemsArray.filter((item) => item.total !== ""));
-    setTotal(
-      itemsArray.reduce(
-        (acc, item) => (item.total === "" ? acc : acc + item.total),
-        0
-      )
-    );
-    if (showDiscount) {
-      setDiscount(
-        itemsArray.reduce(
-          (acc, item) =>
-            item.actual_amount === ""
-              ? acc
-              : acc + (item.actual_amount - item.amount) * item.qty,
-          0
-        )
-      );
-    }
-  }, [setTotal, items, showDiscount]);
+  const {
+    items,
+    total,
+    discount,
+    cartItems,
+    showDiscount,
+    qtyChange,
+    dispatch,
+  } = ItemHook();
 
   return (
     <>
@@ -207,7 +130,7 @@ export default function Product() {
                                       <div className="input-group quantity-holder">
                                         <input
                                           type="number"
-                                          // min={0}
+                                          min={0}
                                           name="quantity"
                                           className="form-control quantity-input"
                                           value={item.qty}
@@ -267,7 +190,7 @@ export default function Product() {
               </div>
             </div>
             <div className="row">
-              <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div className="cart-page-bottom-right">
                   <h3>
                     Total<span> {total} </span>
@@ -281,7 +204,6 @@ export default function Product() {
                     <button
                       className="btn-apply-coupon disabled mr-15"
                       onClick={() => {
-                        dispatch(clearCartItems());
                         dispatch(clearItem());
                       }}
                     >

@@ -288,12 +288,27 @@ img.footer-area {
   width: 100px;
 }
 
+.mean-container .mean-bar {
+  display: block;
+  position: relative !important;
+}
+.mean-bar {
+  display: none;
+}
+
+.mean-bar + div.wrapper {
+  padding-top: 0px !important;
+}
+
 @media (min-width: 768px) {
   .ccrt td:nth-child(2) {
     padding: 0 25px;
   }
 }
 @media (max-width: 768px) {
+  .mean-container .mean-bar .meanmenu-reveal {
+    margin-top: 25px !important;
+  }
   .crt-h3 {
     display: block;
     line-height: unset;

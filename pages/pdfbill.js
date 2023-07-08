@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     color: "grey",
   },
 });
-const PdfBill = (props) => {
+const PdfBill = () => {
   const user = useSelector((state) => state.user.user);
   const items = useSelector((state) => state.items.items);
 
