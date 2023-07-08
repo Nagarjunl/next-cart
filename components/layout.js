@@ -1,7 +1,74 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
+
 export default function Layout({ children }) {
+  const router = useRouter();
+
+  const [width, setWidth] = useState(window.innerWidth);
+  const [showMenu, setShowMenu] = useState(false);
+
+  window.addEventListener("resize", function (event) {
+    setWidth(window.innerWidth);
+  });
+
+  if (width <= 768) {
+    document.body.classList.add("mean-container");
+  } else {
+    document.body.classList.remove("mean-container");
+  }
+
   return (
     <>
+      <div className="mean-bar">
+        <a href="index.html" className="logo-mobile-menu">
+          <img className="img-responsive" src="img/logo-color.png" alt="logo" />
+        </a>
+        <a
+          href="#nav"
+          className={showMenu ? "meanmenu-reveal" : "meanmenu-reveal meanclose"}
+          onClick={() => setShowMenu(!showMenu)}
+          style={{
+            right: " 0px",
+            left: "auto",
+            textAlign: "center",
+            textIndent: "0px",
+            fontSize: "18px",
+          }}
+        >
+          {showMenu ? (
+            "X"
+          ) : (
+            <>
+              <span></span>
+              <span></span>
+              <span></span>
+            </>
+          )}
+        </a>
+        <nav
+          className="mean-nav"
+          style={showMenu ? { display: "block" } : { display: "none" }}
+        >
+          <ul>
+            <li className={router.pathname == "/" ? "active" : ""}>
+              <Link href="/">Home</Link>
+            </li>
+            <li className={router.pathname == "/about" ? "active" : ""}>
+              <Link href="about">About</Link>
+            </li>
+            <li className={router.pathname == "/product" ? "active" : ""}>
+              <Link href="product">Product</Link>
+            </li>
+            <li className={router.pathname == "/cart" ? "active" : ""}>
+              <Link href="cart">Cart</Link>
+            </li>
+            <li className={router.pathname == "/contact" ? "active" : ""}>
+              <Link href="contact">Contact</Link>
+            </li>
+          </ul>
+        </nav>
+      </div>
       <div className="wrapper" style={{ overflow: "unset" }}>
         <header>
           <div className="header2-area">
@@ -13,11 +80,15 @@ export default function Layout({ children }) {
                       <ul>
                         <li>
                           <i className="fa fa-phone" aria-hidden="true"></i>
-                          <a href="Tel:+1234567890"> + 123 456 78910 </a>
+                          <Link href="callto:+919894981364">
+                            +91 98949 81364
+                          </Link>
                         </li>
                         <li>
                           <i className="fa fa-envelope" aria-hidden="true"></i>
-                          <a href="#">info@redchili.com</a>
+                          <Link href="mailto:sathanafireworks@gmail.com">
+                            sathanafireworks@gmail.com
+                          </Link>
                         </li>
                       </ul>
                     </div>
@@ -78,19 +149,37 @@ export default function Layout({ children }) {
                     <div className="main-menu-area">
                       <nav>
                         <ul>
-                          <li className="active">
+                          <li
+                            className={router.pathname == "/" ? "active" : ""}
+                          >
                             <Link href="/">Home</Link>
                           </li>
-                          <li>
+                          <li
+                            className={
+                              router.pathname == "/about" ? "active" : ""
+                            }
+                          >
                             <Link href="about">About</Link>
                           </li>
-                          <li>
+                          <li
+                            className={
+                              router.pathname == "/product" ? "active" : ""
+                            }
+                          >
                             <Link href="product">Product</Link>
                           </li>
-                          <li>
+                          <li
+                            className={
+                              router.pathname == "/cart" ? "active" : ""
+                            }
+                          >
                             <Link href="cart">Cart</Link>
                           </li>
-                          <li>
+                          <li
+                            className={
+                              router.pathname == "/contact" ? "active" : ""
+                            }
+                          >
                             <Link href="contact">Contact</Link>
                           </li>
                         </ul>
@@ -109,16 +198,33 @@ export default function Layout({ children }) {
                   <div className="mobile-menu">
                     <nav id="dropdown">
                       <ul>
-                        <li className="active">
+                        <li className={router.pathname == "/" ? "active" : ""}>
                           <Link href="/">Home</Link>
                         </li>
-                        <li>
+                        <li
+                          className={
+                            router.pathname == "/about" ? "active" : ""
+                          }
+                        >
                           <Link href="about">About</Link>
                         </li>
-                        <li>
+                        <li
+                          className={
+                            router.pathname == "/product" ? "active" : ""
+                          }
+                        >
                           <Link href="product">Product</Link>
                         </li>
-                        <li>
+                        <li
+                          className={router.pathname == "/cart" ? "active" : ""}
+                        >
+                          <Link href="cart">Cart</Link>
+                        </li>
+                        <li
+                          className={
+                            router.pathname == "/contact" ? "active" : ""
+                          }
+                        >
                           <Link href="contact">Contact</Link>
                         </li>
                       </ul>

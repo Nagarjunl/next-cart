@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
 import itemReducer from "./slices/itemslice";
-import cartReducer from "./slices/cartslice";
 import userReducer from "./slices/userslice";
 
 import { combineReducers } from "@reduxjs/toolkit";
@@ -11,12 +10,11 @@ import storage from "redux-persist/lib/storage"; // defaults to localStorage for
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["items", "cart", "user"],
+  whitelist: ["items", "user"],
 };
 
 const rootReducer = combineReducers({
   items: itemReducer,
-  cart: cartReducer,
   user: userReducer,
 });
 

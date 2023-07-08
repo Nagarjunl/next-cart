@@ -1,104 +1,19 @@
 import Link from "next/link";
-
 import Layout from "../components/layout";
-import { useSelector, useDispatch } from "react-redux"; // updated
-import { clearCartItems } from "@/store/slices/cartslice";
-import { addItem, clearItem } from "@/store/slices/itemslice";
-import React, { useState, useEffect } from "react";
+import { clearItem } from "@/store/slices/itemslice";
+import React from "react";
+import ItemHook from "@/hooks/itemHook";
 
 export default function Product() {
-  const items = useSelector((state) => state.items.items);
-  const dispatch = useDispatch();
-
-  let showDiscount = false;
-
-  const [total, setTotal] = useState(0);
-  const [discount, setDiscount] = useState(0);
-  const [cartItems, setCartItems] = useState([]);
-
-  const qtyChange = (e, itemObj) => {
-    const quantity = parseInt(e) || 0;
-    const id = itemObj.id;
-    let changedItem = { ...itemObj };
-
-    changedItem.total = quantity * changedItem.amount;
-    changedItem.qty = quantity;
-    dispatch(
-      addItem(
-        items.map((obj) => {
-          const { category, items } = { ...obj };
-          return {
-            category: category,
-            items: items.map((item) =>
-              item.id === id
-                ? {
-                    ...item,
-                    total: changedItem.total,
-                    qty: changedItem.qty,
-                  }
-                : item
-            ),
-          };
-        })
-      )
-    );
-  };
-
-  const removeItemFromCart = (e, itemObj) => {
-    const quantity = parseInt(e) || 0;
-    const id = itemObj.id;
-    let changedItem = { ...itemObj };
-
-    changedItem.total = quantity * changedItem.amount;
-    changedItem.qty = quantity;
-    dispatch(
-      addItem(
-        items.map((obj) => {
-          const { category, items } = { ...obj };
-          return {
-            category: category,
-            items: items.map((item) =>
-              item.id === id
-                ? {
-                    ...item,
-                    total: "",
-                    qty: "",
-                  }
-                : item
-            ),
-          };
-        })
-      )
-    );
-  };
-
-  useEffect(() => {
-    let itemsArray = [];
-    items.map((item) => item.items.map((item) => itemsArray.push(item)));
-
-    setCartItems(itemsArray.filter((item) => item.total !== ""));
-
-    setTotal(
-      itemsArray.reduce(
-        (acc, item) => (item.total === "" ? acc : acc + item.total),
-        0
-      )
-    );
-
-    if (showDiscount) {
-      setDiscount(
-        itemsArray.reduce(
-          (acc, item) =>
-            item.actual_amount === ""
-              ? acc
-              : acc + (item.actual_amount - item.amount) * item.qty,
-          0
-        )
-      );
-    }
-  }, [setTotal, items, setCartItems, showDiscount]);
-
-  // console.log(cartItems.length);
+  const {
+    total,
+    discount,
+    cartItems,
+    showDiscount,
+    dispatch,
+    cartQtyChange,
+    removeItemFromCart,
+  } = ItemHook();
 
   return (
     <>
@@ -208,7 +123,7 @@ export default function Product() {
                                     className="form-control quantity-input"
                                     value={item.qty}
                                     onChange={(e) =>
-                                      qtyChange(e.target.value, item)
+                                      cartQtyChange(e.target.value, item)
                                     }
                                     autoComplete="off"
                                   />
@@ -217,7 +132,7 @@ export default function Product() {
                                       className="btn btn-default quantity-plus"
                                       type="button"
                                       onClick={() =>
-                                        qtyChange(item.qty + 1, item)
+                                        cartQtyChange(item.qty + 1, item)
                                       }
                                     >
                                       <i
@@ -229,7 +144,7 @@ export default function Product() {
                                       className="btn btn-default quantity-minus"
                                       type="button"
                                       onClick={() =>
-                                        qtyChange(item.qty - 1, item)
+                                        cartQtyChange(item.qty - 1, item)
                                       }
                                     >
                                       <i
@@ -274,15 +189,16 @@ export default function Product() {
                   <h3>
                     Total<span> {total} </span>
                   </h3>
-                  <h3>
-                    Discount<span> {discount} </span>
-                  </h3>
+                  {showDiscount && (
+                    <h3>
+                      Discount<span> {discount} </span>
+                    </h3>
+                  )}
 
                   <div className="proceed-button">
                     <button
                       className="btn-apply-coupon  mr-15"
                       onClick={() => {
-                        dispatch(clearCartItems());
                         dispatch(clearItem());
                       }}
                     >
