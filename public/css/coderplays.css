@@ -300,6 +300,22 @@ img.footer-area {
   padding-top: 0px !important;
 }
 
+.flex-menu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.rm-pt.header-bottom-area {
+  padding-top: 0;
+}
+.main-menu-area nav ul li a {
+  padding: 0 15px 0px;
+  display: block;
+}
+.subtitle-color {
+  width: 413px;
+}
+
 @media (min-width: 768px) {
   .ccrt td:nth-child(2) {
     padding: 0 25px;

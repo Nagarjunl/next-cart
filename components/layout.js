@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -21,9 +22,15 @@ export default function Layout({ children }) {
   return (
     <>
       <div className="mean-bar">
-        <a href="index.html" className="logo-mobile-menu">
-          <img className="img-responsive" src="img/logo-color.png" alt="logo" />
-        </a>
+        <Link href="/" className="logo-mobile-menu">
+          <Image
+            className="img-responsive"
+            src="/img/Sathana Fireworks.png"
+            width={70}
+            height={70}
+            alt="Sathana Fireworks"
+          />
+        </Link>
         <a
           href="#nav"
           className={showMenu ? "meanmenu-reveal" : "meanmenu-reveal meanclose"}
@@ -131,18 +138,20 @@ export default function Layout({ children }) {
                 </div>
               </div>
             </div>
-            <div className="header-bottom-area" id="sticker">
+            <div className="rm-pt header-bottom-area" id="sticker">
               <div className="container">
-                <div className="row">
+                <div className="row flex-menu">
                   <div className="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                    <div className="logo-area">
-                      <a href="index.html">
-                        <img
-                          className="img-responsive"
-                          src="img/logo-color.png"
-                          alt="logo"
+                    <div className="">
+                      <Link href="/" className="logo-mobile-menu">
+                        <Image
+                          src="/img/Sathana Fireworks.png"
+                          width={100}
+                          height={100}
+                          alt="Sathana Fireworks"
+                          style={{ paddingBottom: 5 }}
                         />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                   <div className="col-lg-10 col-md-10 col-sm-10 col-xs-12">

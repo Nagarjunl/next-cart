@@ -4,7 +4,12 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png" />
+        <title> Sathana Fireworks</title>
+        <link
+          rel="shortcut icon"
+          type="image/x-icon"
+          href="img/Sathana Fireworks Favicon.png"
+        />
         <link rel="stylesheet" href="css/normalize.css" />
         <link rel="stylesheet" href="css/main.css" />
         <link rel="stylesheet" href="css/bootstrap.min.css" />
